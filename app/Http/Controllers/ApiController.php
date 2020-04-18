@@ -17,11 +17,14 @@ class ApiController extends Controller
         $bus->depature_time = $request->depature_time;
         $bus->arivel_time = $request->arivel_time;
         $bus->bus_type = $request->bus_type;
+        $bus->is_Local = $request->is_Local;
         $bus->save();
 
         return response()->json([
             "message" => "Bus record created"
         ], 201);
+
+        
     }
 
     public function getAllBuses() {
@@ -44,6 +47,17 @@ class ApiController extends Controller
                 }
     }
 
+    public function getLocalBus($is_Local) {
+      if (Bus::where('is_Local', $is_Local)->exists()) {
+          $bus = Bus::where('is_Local', $is_Local)->get()->toJson(JSON_PRETTY_PRINT);
+          return response($bus, 200);
+        } else {
+          return response()->json([
+            "message" => "Bus not found"
+          ], 404);
+          }
+}
+
     public function getBusByLocation($source , $destination) {
         if (Bus::where('source', $source)->where('destination',$destination)->exists()) {
             $busOnRoute = Bus::where('source', $source)->where('destination',$destination)->get()->toJson(JSON_PRETTY_PRINT);
@@ -64,6 +78,7 @@ class ApiController extends Controller
             $bus->depature_time = is_null($request->depature_time) ? $bus->depature_time : $request->depature_time;
             $bus->arivel_time = is_null($request->arivel_time) ? $bus->arivel_time : $request->arivel_time;
             $bus->bus_type = is_null($request->bus_type) ? $bus->bus_type : $request->bus_type;
+            $bus->is_Local = is_null($request->is_Local) ? $bus->is_Local : $request->is_Local;
             $bus->save();
     
             return response()->json([

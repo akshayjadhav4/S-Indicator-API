@@ -22,6 +22,7 @@ class CreateBusesTable extends Migration
             $table->time('depature_time');
             $table->time('arivel_time');
             $table->string('bus_type');
+            $table->integer('is_Local');
             $table->timestamps();
         });
     }

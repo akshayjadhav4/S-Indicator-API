@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('buses', 'ApiController@createBus');
 
 Route::get('buses', 'ApiController@getAllBuses');
+Route::get('buses/local/{is_Local}', 'ApiController@getLocalBus');
 Route::get('buses/{id}', 'ApiController@getBus');
 Route::get('buses/location/{source}/{destination}' , 'ApiController@getBusByLocation');
 
