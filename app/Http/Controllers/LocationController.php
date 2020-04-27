@@ -9,6 +9,11 @@ class LocationController extends Controller
 {
     //
     public function createLocation(Request $request) {
+      if(Location::where('name', $request->name)->where('taluka',$request->taluka)->exists()) {
+        return response()->json([
+          "message" => "Location already exists."
+        ], 404);
+      } else {
         $location = new Location;
         $location->name = $request->name;
         $location->district = $request->district;
@@ -18,6 +23,7 @@ class LocationController extends Controller
         return response()->json([
             "message" => "Location record created"
         ], 201);
+      }
     }
 
 
